@@ -6,3 +6,8 @@
 .active hr {
     @apply block
 }
+
+/* imp */
+::-webkit-scrollbar{
+    @apply hidden
+}
