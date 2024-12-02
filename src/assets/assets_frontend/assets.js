@@ -5,6 +5,7 @@ import profile_pic from "./profile_pic.png";
 import contact_image from "./contact_image.png";
 import about_image from "./about_image.png";
 import logo from "./logo.svg";
+import DOCTOSB4U from "./DOCTORSB4U.jpg";
 import logo2 from "./logo.jpg";
 import dropdown_icon from "./dropdown_icon.svg";
 import menu_icon from "./menu_icon.svg";
@@ -44,6 +45,7 @@ export const assets = {
   group_profiles,
   logo,
   logo2,
+  DOCTOSB4U,
   chats_icon,
   verified_icon,
   info_icon,

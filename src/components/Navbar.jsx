@@ -12,8 +12,8 @@ const Navbar = () => {
       <NavLink to="/">
         <img
           to="/"
-          className="w-40 h-20 cursor-pointer "
-          src={assets.logo2}
+          className="w-40 h-16 cursor-pointer "
+          src={assets.DOCTOSB4U}
           alt=""
           srcset=""
         />
@@ -52,10 +52,25 @@ const Navbar = () => {
               srcset=""
             />
             <div className="absolute top-0 right-0 pt-16 text-base font-medium  text-gray-600 hidden group-hover:block">
-              <div>
-                <p>My Profile</p>
-                <p>My Appointments</p>
-                <p>Logout</p>
+              <div className="min-w-48 bg-stone-100 rounded flex flex-col gap-4 p-4">
+                <p
+                  onClick={() => navigate("/my-profile")}
+                  className="hover:text-black cursor-pointer"
+                >
+                  My Profile
+                </p>
+                <p
+                  onClick={() => navigate("/my-appointments")}
+                  className="hover:text-black cursor-pointer"
+                >
+                  My Appointments
+                </p>
+                <p
+                  onClick={() => setToken(false)}
+                  className="hover:text-black cursor-pointer"
+                >
+                  Logout
+                </p>
               </div>
             </div>
           </div>
