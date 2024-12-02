@@ -1,11 +1,12 @@
 import React from "react";
-import { assets } from "../assets/assets_frontend/assets";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="flex justify-between  items-center text-sm py-4 border-b  border-gray-400">
-      <img className="w-44 cursor-pointer" src={assets.logo} alt="" srcset="" />
+      <img to="/" className="w-44 cursor-pointer" src={""} alt="" srcset="" />
       <ul className="hidded  md:flex items-start gap-5 font-medium ">
         <NavLink to="/">
           <li className="py-2">Home</li>
@@ -24,9 +25,14 @@ const Navbar = () => {
           <hr className="border-none h-0.5 bg-primary w-3/5  m-auto hidden" />
         </NavLink>
       </ul>
-      <button className=" bg-primary text-white px-8 py-3 rounded-full font-light hidden md:block">
-        Create Account
-      </button>
+      <div className="flex items-center gap-4">
+        <button
+          onClick={() => navigate("/login")}
+          className=" bg-primary text-white px-8 py-3 rounded-full font-light hidden md:block"
+        >
+          Create Account
+        </button>
+      </div>
     </div>
   );
 };
