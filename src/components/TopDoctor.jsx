@@ -1,7 +1,10 @@
 import React from "react";
 import { doctors } from "../assets/assets_frontend/assets";
+import { useNavigate } from "react-router-dom";
 
 const TopDoctor = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="flex flex-col items-center gap-4 my-16 text-gray-900 md:mx-10">
       <h1 className="text-3xl font-medium ">Top Doctors to Book</h1>
@@ -12,6 +15,7 @@ const TopDoctor = () => {
         {doctors.slice(0, 10).map((item, index) => {
           return (
             <div
+              onClick={() => navigate(`/appointment/${item._id}`)}
               className="border border-blue-200 rounded-xl overflow-hidden cursor-pointer hover:translate-y-[-10px] translate-all duration-500"
               key={index}
             >
@@ -19,17 +23,16 @@ const TopDoctor = () => {
               <div className="p-4">
                 <div className="flex items-center gap-2 text-sm text-green-700 ">
                   <p className="w-2 h-2 rounded-full bg-green-700"></p>
-                  <p>Available</p>
+                  <p className="text-green-700">Available</p>
                 </div>
-                <p>{item.name}</p>
-                <p>{item.speciality}</p>
+                <p className="text-gray-900 text-lg font-medium">{item.name}</p>
+                <p className="text-gray-600 text-sm ">{item.speciality}</p>
               </div>
-              <div></div>
             </div>
           );
         })}
       </div>
-      <button>View All</button>
+      <button className="bg-blue-50 text-gray-600 text-sm ">View All</button>
     </div>
   );
 };
