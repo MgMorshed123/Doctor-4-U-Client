@@ -51,6 +51,13 @@ const Navbar = () => {
               alt=""
               srcset=""
             />
+            <div className="absolute top-0 right-0 pt-16 text-base font-medium  text-gray-600 hidden group-hover:block">
+              <div>
+                <p>My Profile</p>
+                <p>My Appointments</p>
+                <p>Logout</p>
+              </div>
+            </div>
           </div>
         ) : (
           <div>
