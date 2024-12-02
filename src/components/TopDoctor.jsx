@@ -15,7 +15,7 @@ const TopDoctor = () => {
               className="border border-blue-200 rounded-xl overflow-hidden cursor-pointer hover:translate-y-[-10px] translate-all duration-500"
               key={index}
             >
-              <img className="bg-blue-500" src={item.image} alt="" srcset="" />
+              <img className="bg-blue-50" src={item.image} alt="" srcset="" />
               <div className="p-4">
                 <div className="flex items-center gap-2 text-sm text-green-700 ">
                   <p className="w-2 h-2 rounded-full bg-green-700"></p>
