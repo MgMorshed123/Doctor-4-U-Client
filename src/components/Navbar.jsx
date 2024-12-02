@@ -24,7 +24,9 @@ const Navbar = () => {
           <hr className="border-none h-0.5 bg-primary w-3/5  m-auto hidden" />
         </NavLink>
       </ul>
-      <button>Create Account</button>
+      <button className=" bg-primary text-white px-8 py-3 rounded-full font-light hidden md:block">
+        Create Account
+      </button>
     </div>
   );
 };
