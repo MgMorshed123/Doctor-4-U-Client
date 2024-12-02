@@ -1,7 +1,13 @@
 import React from "react";
 
 const TopDoctor = () => {
-  return <div>some chages </div>;
+  return (
+    <div>
+      <h1>Top Doctors to Book</h1>
+      <p>Simply browse through our extensive list of trusted doctors.</p>
+      <div></div>
+    </div>
+  );
 };
 
 export default TopDoctor;
