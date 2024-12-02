@@ -1,11 +1,14 @@
 import React, { useContext } from "react";
 
 import { useNavigate } from "react-router-dom";
+import { AppContext } from "../context/AppContext";
 
 const TopDoctor = () => {
   const navigate = useNavigate();
 
   const { doctors } = useContext(AppContext);
+
+  console.log(doctors);
 
   return (
     <div className="flex flex-col items-center gap-4 my-16 text-gray-900 md:mx-10">
@@ -34,7 +37,17 @@ const TopDoctor = () => {
           );
         })}
       </div>
-      <button className="bg-blue-50 text-gray-600 text-sm ">View All</button>
+      <button
+        onClick={() => {
+          {
+            navigate("/doctors/");
+          }
+          SCROLL_TO_TOP(0, 0);
+        }}
+        className="bg-blue-50 text-gray-600 text-sm "
+      >
+        View All
+      </button>
     </div>
   );
 };
