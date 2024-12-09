@@ -1,7 +1,10 @@
 import React from "react";
 import { assets } from "../assets/assets_frontend/assets";
+import useNavigate from "react-router-dom";
 
 const Banner = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="flex bg-primary rounded-lg px-6 sm:px-10 lg:px-12 my-20 md:mx-20">
       {/* left */}
@@ -10,7 +13,12 @@ const Banner = () => {
           <p>Book Appointment</p>
           <p>With 100+ Trusted Doctors</p>
         </div>
-        <button className="bg-white text-sm sm:text-base text-gray-600 py-3 rounded-full px-3 mt-6 hover:scale-105 transition-all">
+        <button
+          onClick={() => {
+            navigate("/login"), scrollTo(0, 0);
+          }}
+          className="bg-white text-sm sm:text-base text-gray-600 py-3 rounded-full px-3 mt-6 hover:scale-105 transition-all"
+        >
           Create Appointment
         </button>
       </div>
