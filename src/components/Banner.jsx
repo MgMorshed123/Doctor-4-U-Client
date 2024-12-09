@@ -10,7 +10,9 @@ const Banner = () => {
           <p>Book Appointment</p>
           <p>With 100+ Trusted Doctors</p>
         </div>
-        <button className="">Create Appointment</button>
+        <button className="bg-white text-sm sm:text-base text-gray-600 py-3 rounded-full px-3 mt-6 hover:scale-105 transition-all">
+          Create Appointment
+        </button>
       </div>
 
       {/* right */}
