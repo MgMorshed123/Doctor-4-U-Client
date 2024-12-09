@@ -34,9 +34,10 @@ const Footer = () => {
         </div>
       </div>
 
+      {/* Copyright Text */}
       <div>
         <hr />
-        <p>Copyright 2024</p>
+        <p className="py-5 text-sm text-center">Copyright 2024</p>
       </div>
     </div>
   );
