@@ -8,15 +8,15 @@ const Footer = () => {
         {/* left */}
         <div className="">
           <img src={assets.logo} className="mb-5 w-40" alt="" srcset="" />
-          <p>
+          <p className="w-full md:w-2/3 text-gray-600 leading-6">
             Lorem ipsum dolor sit amet consectetur, adipisicing elit. Enim in
             facilis officiis tenetur magni consequatur.
           </p>
         </div>
         {/*  center*/}
-        <div>
-          <p> </p>
-          <ul>
+        <div className="">
+          <p className="text-xl font-medium mb-5  "> Company </p>
+          <ul className=" text-gray-500 flex flex-col gap-2">
             <li>Home</li>
             <li>About Us</li>
             <li>Contact Us</li>
@@ -26,9 +26,11 @@ const Footer = () => {
 
         {/* rightt*/}
         <div>
-          <p>Get In Touch </p>
-          <li>+321323123</li>
-          <li>mdarfinji452gmail.com</li>
+          <p className="text-xl font-medium mb-5  ">Get In Touch </p>
+          <ul className=" text-gray-500 flex flex-col gap-2">
+            <li>+321323123</li>
+            <li>mdarfinji452gmail.com</li>
+          </ul>
         </div>
       </div>
 
