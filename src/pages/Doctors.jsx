@@ -5,7 +5,7 @@ import { useContext } from "react";
 import { use } from "react";
 
 const Doctors = () => {
-  const { speciality } = useParams;
+  const { speciality } = useParams();
   console.log(speciality);
 
   const { doctors } = useContext(AppContext);
@@ -36,15 +36,24 @@ const Doctors = () => {
                 ? navigate("/doctors")
                 : navigate(`/doctors/General physician`)
             }
-            className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-300 rounded transition-all cursor-pointer`}
+            className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-600 rounded transition-all cursor-pointer ${
+              speciality === "General physician"
+                ? "bg-indigo-200 border border-green-500 text-black"
+                : ""
+            }`}
           >
             General physician
           </p>
           <p
+            className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-600 rounded transition-all cursor-pointer${
+              speciality === "Gynecologist"
+                ? "bg-indigo-200 border border-green-500 text-black"
+                : ""
+            }`}
             onClick={() =>
-              speciality === " Gynecologist"
+              speciality === "Gynecologist"
                 ? navigate("/doctors")
-                : navigate(`/doctors/ Gynecologist`)
+                : navigate(`/doctors/Gynecologist`)
             }
           >
             Gynecologist
@@ -53,9 +62,13 @@ const Doctors = () => {
             onClick={() =>
               speciality === "Dermatologist"
                 ? navigate("/doctors")
-                : navigate(`/doctors/  Dermatologist`)
+                : navigate(`/doctors/Dermatologist`)
             }
-            className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-300 rounded transition-all cursor-pointer`}
+            className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-600 rounded transition-all cursor-pointer${
+              speciality === "Dermatologist"
+                ? "bg-indigo-200 border border-green-500 text-black"
+                : ""
+            }`}
           >
             Dermatologist
           </p>
@@ -63,9 +76,13 @@ const Doctors = () => {
             onClick={() =>
               speciality === "Pediatricians"
                 ? navigate("/doctors")
-                : navigate(`/doctors/ Pediatricians`)
+                : navigate(`/doctors/Pediatricians`)
             }
-            className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-300 rounded transition-all cursor-pointer`}
+            className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-600 rounded transition-all cursor-pointer${
+              speciality === "Pediatricians"
+                ? "bg-indigo-200 border border-green-500 text-black"
+                : ""
+            }`}
           >
             Pediatricians
           </p>
@@ -73,19 +90,27 @@ const Doctors = () => {
             onClick={() =>
               speciality === "Neurologist"
                 ? navigate("/doctors")
-                : navigate(`/doctors/ Neurologist`)
+                : navigate(`/doctors/Neurologist`)
             }
-            className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-300 rounded transition-all cursor-pointer`}
+            className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-600 rounded transition-all cursor-pointer${
+              speciality === "Neurologist"
+                ? "bg-indigo-200 border border-green-500 text-black"
+                : ""
+            }`}
           >
             Neurologist
           </p>
           <p
             onClick={() =>
-              speciality === " Gastroenterologist"
+              speciality === "Gastroenterologist"
                 ? navigate("/doctors")
-                : navigate(`/doctors/ Gastroenterologist`)
+                : navigate(`/doctors/Gastroenterologist`)
             }
-            className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-300 rounded transition-all cursor-pointer`}
+            className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-600 rounded transition-all cursor-pointer${
+              speciality === "Gastroenterologist"
+                ? "bg-indigo-200 border border-green-500 text-black"
+                : ""
+            }`}
           >
             Gastroenterologist
           </p>
