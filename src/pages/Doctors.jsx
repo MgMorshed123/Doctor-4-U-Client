@@ -11,6 +11,7 @@ const Doctors = () => {
   const { doctors } = useContext(AppContext);
   const [filterDoc, setFilterDoc] = useState([]);
   const navigate = useNavigate();
+
   const applyFilter = () => {
     if (speciality) {
       setFilterDoc(doctors.filter((item) => item.speciality === speciality));
