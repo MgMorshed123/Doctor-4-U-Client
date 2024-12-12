@@ -12,15 +12,7 @@ const Appointments = () => {
   const [slotIndex, setSlotIndex] = useState(0);
   const [docInfo, setDocInfo] = useState(null);
   const [slotTime, setSlotTime] = useState("");
-  const daysOfWeek = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
+  const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
   const fetchDocInfo = async () => {
     const docInfo = doctors.find((doc) => doc._id === docId);
@@ -28,31 +20,24 @@ const Appointments = () => {
   };
 
   const getAvailableSlots = async () => {
-    setDocSlots([]);
+    setDocSlots([]); // Reset the slots
 
-    let today = new Date();
-    // getting current date
+    let today = new Date(); // Get the current date
+    let allSlots = []; // To store the time slots for the next 7 days
+
     for (let i = 0; i < 7; i++) {
       let currentDate = new Date(today);
-      currentDate.setDate(today.getDate() + i);
+      currentDate.setDate(today.getDate() + i); // Move to the next day
 
-      // setting  an endtime
-      let endTime = new Date();
-      endTime.setDate(today.getDate() + i);
-      endTime.setHours(21, 0, 0, 0);
+      let endTime = new Date(currentDate);
+      endTime.setHours(21, 0, 0, 0); // End time for the current day (9 PM)
 
-      // SETTING HOURS
-      if (today.getDate() === currentDate.getDate()) {
-        currentDate.setHours(
-          currentDate.getHours() > 10 ? currentDate.getHours + 1 : 10
-        );
-        currentDate.setMinutes(currentDate.getMinutes() > 30 ? 30 : 0);
-      } else {
-        currentDate.setHours(10);
-        currentDate.setMinutes(0);
-      }
+      // Setting initial time for the current day
+      currentDate.setHours(10, 0, 0, 0); // Start time for the slots (10 AM)
+
       let timeSlots = [];
 
+      // Generate 30-minute slots for the current day
       while (currentDate < endTime) {
         let formattedDate = currentDate.toLocaleTimeString([], {
           hour: "2-digit",
@@ -64,10 +49,18 @@ const Appointments = () => {
           time: formattedDate,
         });
 
-        currentDate.setMinutes(currentDate.getMinutes() + 30);
+        currentDate.setMinutes(currentDate.getMinutes() + 30); // Increment time by 30 minutes
       }
-      setDocSlots((prev) => ({ ...prev, timeSlots }));
+
+      // Add the slots for the current day into the allSlots array
+      allSlots.push({
+        date: currentDate,
+        slots: timeSlots,
+      });
     }
+
+    // Set the timeSlots with all the generated slots for the next 7 days
+    setDocSlots(allSlots);
   };
 
   useEffect(() => {
@@ -135,12 +128,29 @@ const Appointments = () => {
         {/* booking slots  */}
         <div className="sm:ml-72 sm:pl-4 mt-4 font-medium text-gray-700">
           <p>Booking Slots </p>
-          <div>
-            {docSlots.length &&
-              docSlots.map((item, index) => (
-                <div key={index}>
-                  <p>{item[0] && daysOfWeek[item[0].datetime.getDay()]}</p>
-                  <p>{item[0] && item[0].datetime.getDate()}</p>
+          <div className="flex gap-3 items-center w-full overflow-x-scroll mt-4">
+            {docSlots.length > 0 &&
+              docSlots.map((daySlot, index) => (
+                <div
+                  onClick={() => setSlotIndex(index)}
+                  className={`text-center py-6 min-w-16 rounded-full cursor-pointer ${
+                    slotIndex === index
+                      ? "bg-primary text-white"
+                      : "border-gray-200"
+                  } `}
+                  key={index}
+                >
+                  <p>{daysOfWeek[daySlot.date.getDay()]}</p>{" "}
+                  {/* Display day of the week */}
+                  <p>
+                    {daySlot.date.toLocaleDateString([], { day: "2-digit" })}
+                  </p>
+                  {/* Display date in format MM/DD/YYYY */}
+                  {/* {daySlot.slots.map((slot, slotIndex) => (
+                      <div key={slotIndex}>
+                        <p>{slot.time}</p>
+                      </div>
+                    ))} */}
                 </div>
               ))}
           </div>
