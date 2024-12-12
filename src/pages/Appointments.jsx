@@ -33,7 +33,7 @@ const Appointments = () => {
           </div>
 
           <div className="flex-1 border border-gray-400 rounded-lg p-8 py-7 bg-white mx-2 sm:mx-0 mt-[-80px]  sm:mt-0">
-            <p>
+            <p className="flex items-center gap-2 text-2xl font-medium">
               {docInfo.name} <img src={assets.verified_icon} alt="" srcset="" />
             </p>
             <div>
