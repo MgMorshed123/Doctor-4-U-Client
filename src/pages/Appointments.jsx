@@ -18,9 +18,15 @@ const Appointments = () => {
     setDocInfo(docInfo);
   };
 
+  const getAvailableSlots = async () => {};
+
   useEffect(() => {
     fetchDocInfo();
   }, [doctors, docId]);
+
+  useEffect(() => {
+    getAvailableSlots();
+  }, [docInfo]);
 
   return (
     docInfo && (
