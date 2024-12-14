@@ -1,4 +1,5 @@
 import React from "react";
+import { assets } from "../assets/assets_frontend/assets";
 
 const Contact = () => {
   return (
@@ -7,6 +8,10 @@ const Contact = () => {
         <p>
           Contact <span>Us </span>
         </p>
+      </div>
+
+      <div>
+        <img src={assets.contact_image} alt="" srcset="" />
       </div>
     </div>
   );
