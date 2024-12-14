@@ -11,6 +11,7 @@ const Appointments = () => {
   const [slotIndex, setSlotIndex] = useState(0); // Tracks selected day
   const [docInfo, setDocInfo] = useState(null);
   const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const [slotTime, setSlotTime] = useState(0);
 
   const fetchDocInfo = async () => {
     const docInfo = doctors.find((doc) => doc._id === docId);
@@ -111,31 +112,47 @@ const Appointments = () => {
         </div>
         <div className="sm:ml-72 sm:pl-4 mt-4 font-medium text-gray-700">
           <p>Booking Slots</p>
-          <div className="flex gap-3 items-center w-full overflow-x-scroll mt-4">
-            {docSlots.map((daySlot, index) => (
-              <div
-                key={index}
-                onClick={() => setSlotIndex(index)} // Update slot index on click
-                className={`text-center py-6 min-w-16 rounded-full cursor-pointer ${
-                  slotIndex === index
-                    ? "bg-primary text-white"
-                    : "border-gray-200"
-                } `}
-              >
-                <p>{daysOfWeek[daySlot.date.getDay()]}</p>
-                <p>{daySlot.date.toLocaleDateString([], { day: "2-digit" })}</p>
-              </div>
-            ))}
+          <div className="flex gap-3 items-center w-full mt-4">
+            <div className="flex gap-3 items-center w-full overflow-x-auto mt-4 scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
+              {docSlots.map((daySlot, index) => (
+                <div
+                  key={index}
+                  onClick={() => setSlotIndex(index)} // Update slot index on click
+                  className={`text-center py-6 min-w-16 rounded-full cursor-pointer ${
+                    slotIndex === index
+                      ? "bg-primary text-white"
+                      : "border-gray-200"
+                  } `}
+                >
+                  <p>{daysOfWeek[daySlot.date.getDay()]}</p>
+                  <p>
+                    {daySlot.date.toLocaleDateString([], { day: "2-digit" })}
+                  </p>
+                </div>
+              ))}
+            </div>
           </div>
-          <div className="flex flex-wrap gap-3 mt-4">
-            {docSlots[slotIndex]?.slots.map((slot, index) => (
-              <p
-                key={index}
-                className={`text-sm font-light px-5 py-2 rounded-full cursor-pointer bg-gray-200`}
-              >
-                {slot.time}
-              </p>
-            ))}
+
+          <div className="w-full overflow-x-auto">
+            {/* Time Slot Container */}
+            <div className="flex gap-2 min-w-max overflow-x-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200">
+              {docSlots[slotIndex]?.slots.map((slot, index) => (
+                <p
+                  onClick={() => setSlotTime(slot.time)} // Set the selected slot time
+                  key={index}
+                  className={`text-sm font-light px-5 py-2 rounded-full cursor-pointer ${
+                    slot.time === slotTime
+                      ? "bg-blue-500 text-white"
+                      : "bg-gray-200"
+                  }`}
+                >
+                  {slot.time}
+                </p>
+              ))}
+            </div>
+            <button className="bg-primary text-white text-sm font-light px-14  py-3  rounded-full my-6">
+              Book An Appointment{" "}
+            </button>
           </div>
         </div>
       </div>
