@@ -16,7 +16,9 @@ const RelatedDoctor = ({ speciality, docId }) => {
       );
       setRelDoc(doctorsData);
     }
-  });
+  }, [doctors, speciality, docId]);
+
+  //   console.log(relDoc);
 
   return (
     <div>
