@@ -1,7 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { AppContext } from "../context/AppContext";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 const Login = () => {
   const [state, setState] = useState("Sign Up");
+
+  const { token, setToken, currencySymbol, backendUrl } =
+    useContext(AppContext);
 
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
@@ -9,6 +15,46 @@ const Login = () => {
 
   const onSubmitHandler = async (event) => {
     event.preventDefault();
+
+    try {
+      if (state === "Sign Up") {
+        const { data } = axios.post(backendUrl + "/api/user/register", {
+          name,
+          password,
+          email,
+        });
+
+        if (data.success) {
+          localStorage.setItem("token", data.token);
+          setToken(data.token);
+        } else {
+          Swal.fire({
+            title: data.message,
+            icon: "success",
+          });
+        }
+      } else {
+        const { data } = axios.post(backendUrl + "/api/user/login", {
+          email,
+          password,
+        });
+
+        if (data.success) {
+          localStorage.setItem("token", data.token);
+          setToken(data.token);
+        } else {
+          Swal.fire({
+            title: data.message,
+            icon: "error",
+          });
+        }
+      }
+    } catch (error) {
+      Swal.fire({
+        title: error.message,
+        icon: "error",
+      });
+    }
   };
 
   return (
