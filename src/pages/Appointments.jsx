@@ -93,8 +93,6 @@ const Appointments = () => {
         { headers: { token } }
       );
 
-      console.log(data);
-
       if (data.success) {
         Swal.fire({
           title: "Appointment booked ",
