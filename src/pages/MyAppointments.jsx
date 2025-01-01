@@ -22,6 +22,15 @@ const MyAppointments = () => {
     "Dec",
   ];
 
+  const slotDateFormate = (slotDate) => {
+    console.log(slotDate);
+    const dateArray = slotDate.split("_");
+
+    return (
+      dateArray[0] + " " + months[Number(dateArray[1] - 1)] + " " + dateArray[2]
+    );
+  };
+
   // Function to fetch user appointments
   const getUserAppointments = async () => {
     try {
@@ -86,7 +95,7 @@ const MyAppointments = () => {
                     Date & Time :{" "}
                   </span>
                   {/* Replace with actual time from the backend */}
-                  {item.slotDate} | {item.slotTime}
+                  {slotDateFormate(item.slotDate)} | {item.slotTime}
                 </p>
               </div>
 
