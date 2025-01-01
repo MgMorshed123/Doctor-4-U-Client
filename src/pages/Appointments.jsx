@@ -11,6 +11,8 @@ const Appointments = () => {
   const { doctors, currencySymbol, backendUrl, getDoctorsData, token } =
     useContext(AppContext);
 
+  console.log(backendUrl);
+
   const navigate = useNavigate();
 
   const [docSlots, setDocSlots] = useState([]);
@@ -93,7 +95,6 @@ const Appointments = () => {
     }
 
     try {
-      console.log("Selected Slot:", docSlots[slotIndex]); // Debug log
       const selectedSlot = docSlots[slotIndex];
       const date = selectedSlot?.date;
 
@@ -112,13 +113,13 @@ const Appointments = () => {
         throw new Error("No time slot selected");
       }
 
-      console.log("Booking slot:", { slotDate, slotTime });
-
       const { data } = await axios.post(
         `${backendUrl}/api/user/book-appointment`,
         { docId, slotDate, slotTime },
         { headers: { token } }
       );
+
+      console.log(data);
 
       if (data.success) {
         Swal.fire({
