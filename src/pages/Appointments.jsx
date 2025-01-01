@@ -1,12 +1,17 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
 import { assets } from "../assets/assets_frontend/assets";
 import RelatedDoctor from "../components/RelatedDoctor";
+import Swal from "sweetalert2";
+import axios from "axios";
 
 const Appointments = () => {
   const { docId } = useParams();
-  const { doctors, currencySymbol } = useContext(AppContext);
+  const { doctors, currencySymbol, backendUrl, getDoctorsData, token } =
+    useContext(AppContext);
+
+  const navigate = useNavigate();
 
   const [docSlots, setDocSlots] = useState([]);
   const [slotIndex, setSlotIndex] = useState(0); // Tracks selected day
@@ -56,6 +61,8 @@ const Appointments = () => {
     setDocSlots(allSlots);
   };
 
+  console.log(docSlots);
+
   useEffect(() => {
     fetchDocInfo();
   }, [doctors, docId]);
@@ -63,6 +70,51 @@ const Appointments = () => {
   useEffect(() => {
     if (docInfo) getAvailableSlots();
   }, [docInfo]);
+
+  const bookAppointment = async () => {
+    if (!token) {
+      Swal.fire({
+        title: "Login to book appointment ",
+      });
+    }
+
+    try {
+      const date = docSlots[slotIndex][0]?.datetime;
+
+      const day = date?.getDate();
+      const month = date?.getMonth() + 1;
+      const year = date?.getFullYear();
+
+      const slotDate = day + " " + month + year;
+
+      const { data } = await axios.post(
+        backendUrl + "/api/user/book-appointment",
+        { docId, slotDate, slotTime },
+        { headers: { token } }
+      );
+
+      console.log(data);
+
+      if (data.success) {
+        Swal.fire({
+          title: "Appointment booked ",
+        });
+        getDoctorsData();
+        navigate("/my-appointments");
+      } else {
+        Swal.fire({
+          title: "Failed ",
+          success: "error",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      Swal.fire({
+        title: "Something went Wrong ",
+        success: "error",
+      });
+    }
+  };
 
   return (
     docInfo && (
@@ -151,7 +203,10 @@ const Appointments = () => {
                 </p>
               ))}
             </div>
-            <button className="bg-primary text-white text-sm font-light px-14  py-3  rounded-full my-6">
+            <button
+              onClick={bookAppointment}
+              className="bg-primary text-white text-sm font-light px-14  py-3  rounded-full my-6"
+            >
               Book An Appointment{" "}
             </button>
           </div>
