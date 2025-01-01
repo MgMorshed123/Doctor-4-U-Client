@@ -25,6 +25,8 @@ const Appointments = () => {
   };
 
   const getAvailableSlots = () => {
+    if (!docInfo || !docInfo.slot_booked) return;
+
     const today = new Date();
     const allSlots = [];
 
@@ -39,15 +41,27 @@ const Appointments = () => {
 
       const timeSlots = [];
       while (currentDate < endTime) {
-        const formattedDate = currentDate.toLocaleTimeString([], {
+        const formattedTime = currentDate.toLocaleTimeString([], {
           hour: "2-digit",
           minute: "2-digit",
         });
 
-        timeSlots.push({
-          datetime: new Date(currentDate),
-          time: formattedDate,
-        });
+        const day = currentDate.getDate();
+        const month = currentDate.getMonth() + 1;
+        const year = currentDate.getFullYear();
+
+        const slotDate = `${day}_${month}_${year}`;
+        const slotTime = formattedTime;
+
+        const bookedSlots = docInfo.slot_booked[slotDate] || []; // Get booked slots for the day or empty array
+        const isSlotAvailable = !bookedSlots.includes(slotTime); // Check if the time is not booked
+
+        if (isSlotAvailable) {
+          timeSlots.push({
+            datetime: new Date(currentDate),
+            time: formattedTime,
+          });
+        }
 
         currentDate.setMinutes(currentDate.getMinutes() + 30); // Increment time by 30 minutes
       }
@@ -73,22 +87,35 @@ const Appointments = () => {
 
   const bookAppointment = async () => {
     if (!token) {
-      Swal.fire({
+      return Swal.fire({
         title: "Login to book appointment ",
       });
     }
 
     try {
-      const date = docSlots[slotIndex][0]?.datetime;
+      console.log("Selected Slot:", docSlots[slotIndex]); // Debug log
+      const selectedSlot = docSlots[slotIndex];
+      const date = selectedSlot?.date;
 
-      const day = date?.getDate();
-      const month = date?.getMonth() + 1;
-      const year = date?.getFullYear();
+      if (!date) {
+        throw new Error("Invalid date in selected slot");
+      }
 
-      const slotDate = day + " " + month + year;
+      const day = date.getDate();
+      const month = date.getMonth() + 1;
+      const year = date.getFullYear();
+
+      const slotDate = `${day}_${month}_${year}`;
+      const slotTime = selectedSlot.slots?.[0]?.time; // Select the first available time slot (or adjust based on your logic)
+
+      if (!slotTime) {
+        throw new Error("No time slot selected");
+      }
+
+      console.log("Booking slot:", { slotDate, slotTime });
 
       const { data } = await axios.post(
-        backendUrl + "/api/user/book-appointment",
+        `${backendUrl}/api/user/book-appointment`,
         { docId, slotDate, slotTime },
         { headers: { token } }
       );
@@ -102,14 +129,14 @@ const Appointments = () => {
       } else {
         Swal.fire({
           title: "Failed ",
-          success: "error",
+          icon: "error",
         });
       }
     } catch (error) {
-      console.log(error);
+      console.error("Booking error:", error.message);
       Swal.fire({
-        title: "Something went Wrong ",
-        success: "error",
+        title: "Something went wrong ",
+        icon: "error",
       });
     }
   };
