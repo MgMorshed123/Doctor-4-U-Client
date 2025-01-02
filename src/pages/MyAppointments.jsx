@@ -8,6 +8,8 @@ const MyAppointments = () => {
 
   const [appointments, setAppointments] = useState([]);
 
+  // months
+
   const months = [
     "Jan",
     "Feb",
