@@ -2,11 +2,23 @@ import React, { useContext, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { assets } from "../assets/assets_frontend/assets";
 import { AppContext } from "../context/AppContext";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "./ui/dropdown-menu";
+import { Button } from "./ui/button";
+import { Moon, Sun } from "lucide-react";
+import { useThemeStore } from "@/context/useThems";
 const Navbar = () => {
   const navigate = useNavigate();
 
   const [showMenu, setShowMenu] = useState(false);
   const { token, setToken, userData } = useContext(AppContext);
+
+  const { setTheme, initializeTheme, theme } = useThemeStore();
+  console.log(theme);
 
   const logOut = () => {
     setToken(false);
@@ -14,7 +26,11 @@ const Navbar = () => {
   };
 
   return (
-    <div className="flex justify-between  items-center text-sm py-4 border-b  border-gray-400">
+    <div
+      className={`flex justify-between items-center text-sm py-4 border-b border-gray-400 ${
+        theme === "dark" ? "bg-black text-white" : "bg-white text-black"
+      }`}
+    >
       <NavLink to="/">
         <img
           to="/"
@@ -43,6 +59,24 @@ const Navbar = () => {
         </NavLink>
       </ul>
       <div className="flex items-center gap-4">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button size="icon">
+              <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+              <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+              <span className="sr-only">Toggle theme</span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem onClick={() => setTheme("light")}>
+              Light
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setTheme("dark")}>
+              Dark
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+
         {token && userData ? (
           <div className="flex items-center gap-2 cursor-pointer group relative">
             <img
@@ -81,7 +115,7 @@ const Navbar = () => {
           <div>
             <button
               onClick={() => navigate("/login")}
-              className=" bg-primary text-white px-8 py-3 rounded-full font-light hidden md:block"
+              className=" bg-blue-800 text-white px-8 py-3 rounded-full font-light hidden md:block"
             >
               Create Account
             </button>

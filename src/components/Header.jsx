@@ -1,9 +1,16 @@
 import React from "react";
 import { assets } from "../assets/assets_frontend/assets";
+import { useThemeStore } from "@/context/useThems";
 
 const Header = () => {
+  const { theme } = useThemeStore();
+
   return (
-    <div className=" flex flex-col md:flex-row flex-wrap bg-primary rounded-lg px-6 md:px-10  lg:px-20 mt-5">
+    <div
+      className={`flex flex-col md:flex-row flex-wrap rounded-lg px-6 md:px-10 lg:px-20 mt-5 ${
+        theme === "dark" ? "bg-black text-white" : "bg-blue-800 text-black"
+      }`}
+    >
       {/* left side  */}
 
       <div className="md:w-1/2 flex flex-col items-start justify-center gap-4 py-10 md:py-[10vw] md:mb-[-30px]">
@@ -21,7 +28,9 @@ const Header = () => {
           </p>
         </div>
         <a
-          className="flex items-center gap-2 bg-white px-8 py-3 rounded-full"
+          className={`flex items-center gap-2 ${
+            theme === "dark" ? "bg-white text-black" : "bg-black text-white"
+          } px-8 py-3 rounded-full`}
           href="#speciality"
         >
           Book Appointment

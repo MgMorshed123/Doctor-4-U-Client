@@ -8,6 +8,8 @@ const MyAppointments = () => {
 
   const [appointments, setAppointments] = useState([]);
 
+  console.log("appointments", appointments);
+
   // months
 
   const months = [
@@ -60,9 +62,8 @@ const MyAppointments = () => {
     if (token) {
       getUserAppointments();
     }
-  }, []); // Add token as a dependency to refetch if the token changes
-
-  console.log(appointments);
+  }, []);
+  // Add token as a dependency to refetch if the token changes
 
   const cancelAppointment = async (appointmentId) => {
     try {
@@ -84,6 +85,29 @@ const MyAppointments = () => {
       }
     } catch (error) {}
   };
+
+  const payment = async (appointmentId) => {
+    try {
+      const { data } = await axios.post(
+        backendUrl + "/api/user/payment",
+        { appointmentId },
+        { headers: { token } }
+      );
+
+      if (data.success && data.paymentUrl) {
+        console.log("Redirecting to Stripe...", data);
+
+        window.location.href = data.paymentUrl; // Redirect to Stripe payment page
+        getUserAppointments();
+      } else {
+        console.error("Payment initialization failed:", data.message);
+      }
+    } catch (error) {
+      console.error("Payment error:", error.response?.data || error.message);
+    }
+  };
+
+  console.log("appointments.payment ", appointments.payment);
 
   return (
     <div>
@@ -124,13 +148,20 @@ const MyAppointments = () => {
               </div>
 
               <div className="flex flex-col justify-end">
-                {!item.cancelled && (
-                  <button className="text-sm hover:bg-primary hover:text-white translate-all duration-300 text-stone-500 text-center sm:min-w-48 py-2 border rounded">
-                    Pay Online
+                {!item.cancelled && !item.isCompleted && (
+                  <button
+                    onClick={() => payment(item._id)}
+                    className="text-sm hover:bg-green-900 bg-green-500 hover:text-white translate-all duration-300 text-stone-500 text-center sm:min-w-48 py-2 border rounded"
+                  >
+                    {item.payment === true ? (
+                      <p>Payment Done </p>
+                    ) : (
+                      "Pay Online"
+                    )}
                   </button>
                 )}
 
-                {!item.cancelled && (
+                {!item.cancelled && !item.isCompleted && (
                   <button
                     onClick={() => cancelAppointment(item._id)}
                     className="text-sm hover:bg-red-500 hover:text-black translate-all duration-300 text-stone-500 text-center sm:min-w-48 py-2 border rounded"
@@ -138,7 +169,7 @@ const MyAppointments = () => {
                     Cancel Appointment
                   </button>
                 )}
-                {item.cancelled == true ? (
+                {!item.isCompleted && item.cancelled == true ? (
                   <button
                     onClick={() => cancelAppointment(item._id)}
                     className="text-sm text-red-600  hover:border-red-800 translate-all duration-300 text-center sm:min-w-48 py-2 border rounded"
@@ -147,6 +178,12 @@ const MyAppointments = () => {
                   </button>
                 ) : (
                   ""
+                )}
+
+                {item.isCompleted && (
+                  <button className="sm:min-w-48 py-2 border border-green-400 ">
+                    Completed
+                  </button>
                 )}
               </div>
             </div>

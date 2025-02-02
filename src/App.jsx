@@ -10,10 +10,17 @@ import About from "./pages/About";
 import Appointments from "./pages/Appointments";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import { useThemeStore } from "./context/useThems";
 
 const App = () => {
+  const { theme } = useThemeStore();
+
   return (
-    <div className="mx-4 sm:mx-[10%]">
+    <div
+      className={`w-full ${
+        theme === "dark" ? "bg-black text-white" : "bg-white text-black"
+      }`}
+    >
       <Navbar></Navbar>
       <Routes>
         <Route path="/" element={<Home />} />

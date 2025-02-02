@@ -5,6 +5,7 @@ import { assets } from "../assets/assets_frontend/assets";
 import RelatedDoctor from "../components/RelatedDoctor";
 import Swal from "sweetalert2";
 import axios from "axios";
+import { Button } from "@/components/ui/button";
 
 const Appointments = () => {
   const { docId } = useParams();
@@ -129,7 +130,7 @@ const Appointments = () => {
         navigate("/my-appointments");
       } else {
         Swal.fire({
-          title: "Failed ",
+          title: data.message,
           icon: "error",
         });
       }
@@ -229,12 +230,12 @@ const Appointments = () => {
                 </p>
               ))}
             </div>
-            <button
+            <Button
               onClick={bookAppointment}
-              className="bg-primary text-white text-sm font-light px-14  py-3  rounded-full my-6"
+              className="bg-blue-800 text-white text-sm font-light px-14  py-3  rounded-full my-6"
             >
               Book An Appointment{" "}
-            </button>
+            </Button>
           </div>
 
           {/* related doctors  */}

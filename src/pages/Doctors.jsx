@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { AppContext } from "../context/AppContext";
 import { useContext } from "react";
 import { use } from "react";
+import { useThemeStore } from "@/context/useThems";
 
 const Doctors = () => {
   const { speciality } = useParams();
@@ -11,6 +12,7 @@ const Doctors = () => {
   const { doctors } = useContext(AppContext);
   const [filterDoc, setFilterDoc] = useState([]);
   const navigate = useNavigate();
+  const { theme } = useThemeStore();
   const [showFilter, setShowFilter] = useState();
 
   const applyFilter = () => {
@@ -27,7 +29,7 @@ const Doctors = () => {
 
   return (
     <div>
-      <p className="text-gray-600 flex flex-col sm:flex-row items-start gap-5 mt-5 ">
+      <p className=" flex flex-col sm:flex-row items-start gap-5 mt-5 ">
         Browse through the doctors specialist.
       </p>
       <div className="flex flex-col sm:flex-row items-start gap-5 mt-5">
@@ -40,7 +42,7 @@ const Doctors = () => {
           Filters
         </button>
         <div
-          className={`  flex-col gap-4 text-gray-600  ${
+          className={`  flex-col gap-4   ${
             showFilter ? "flex" : "hidden sm:flex"
           }`}
         >
@@ -52,7 +54,7 @@ const Doctors = () => {
             }
             className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-600 rounded transition-all cursor-pointer ${
               speciality === "General physician"
-                ? "bg-indigo-200 border border-green-500 text-black"
+                ? "bg-indigo-200 border border-green-500 text-black animate-borderColor"
                 : ""
             }`}
           >
@@ -61,7 +63,7 @@ const Doctors = () => {
           <p
             className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-600 rounded transition-all cursor-pointer${
               speciality === "Gynecologist"
-                ? "bg-indigo-200 border border-green-500 text-black"
+                ? "bg-indigo-200 border border-green-500 text-black animate-borderColor"
                 : ""
             }`}
             onClick={() =>
@@ -80,7 +82,7 @@ const Doctors = () => {
             }
             className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-600 rounded transition-all cursor-pointer${
               speciality === "Dermatologist"
-                ? "bg-indigo-200 border border-green-500 text-black"
+                ? "bg-indigo-200 border border-green-500 text-black animate-borderColor"
                 : ""
             }`}
           >
@@ -94,7 +96,7 @@ const Doctors = () => {
             }
             className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-600 rounded transition-all cursor-pointer${
               speciality === "Pediatricians"
-                ? "bg-indigo-200 border border-green-500 text-black"
+                ? "bg-indigo-200 border border-green-500 text-black animate-borderColor"
                 : ""
             }`}
           >
@@ -108,7 +110,7 @@ const Doctors = () => {
             }
             className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-600 rounded transition-all cursor-pointer${
               speciality === "Neurologist"
-                ? "bg-indigo-200 border border-green-500 text-black"
+                ? "bg-indigo-200 border border-green-500 text-black animate-borderColor"
                 : ""
             }`}
           >
@@ -120,9 +122,9 @@ const Doctors = () => {
                 ? navigate("/doctors")
                 : navigate(`/doctors/Gastroenterologist`)
             }
-            className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-600 rounded transition-all cursor-pointer${
+            className={`w-[94vw] sm:w-auto pl-3 py-1.5 pr-16 border border-gray-600 rounded transition-all cursor-pointer ${
               speciality === "Gastroenterologist"
-                ? "bg-indigo-200 border border-green-500 text-black"
+                ? "bg-indigo-200 border-green-500 text-black border-4 animate-borderColor"
                 : ""
             }`}
           >
@@ -130,7 +132,7 @@ const Doctors = () => {
           </p>
         </div>
 
-        <div className="w-full grid grid-cols-auto gap-4 gap-y-6">
+        <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 gap-y-6 px-3 sm:px-3">
           {filterDoc.map((item, index) => {
             return (
               <div
@@ -142,12 +144,16 @@ const Doctors = () => {
                 <div className="p-4">
                   <div className="flex items-center gap-2 text-sm text-green-700 ">
                     <p className="w-2 h-2 rounded-full bg-green-700"></p>
-                    <p className="text-green-700">Available</p>
+                    <p
+                      className={
+                        item?.available ? "text-green-700" : "text-red-700"
+                      }
+                    >
+                      {item?.available ? "Available" : "Not Available"}
+                    </p>
                   </div>
-                  <p className="text-gray-900 text-lg font-medium">
-                    {item.name}
-                  </p>
-                  <p className="text-gray-600 text-sm ">{item.speciality}</p>
+                  <p className=" text-lg font-medium">{item.name}</p>
+                  <p className=" text-sm ">{item.speciality}</p>
                 </div>
               </div>
             );
